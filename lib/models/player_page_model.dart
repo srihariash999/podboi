@@ -16,39 +16,50 @@ class PlayerPageModel extends Model {
   }
 
   buttonPressedAction() async {
-     if (_state == stithi.playing) {
-      playerPageService.pausePlayer();
+    if (_state == stithi.playing) {
+      await playerPageService.aapuPlayer();
       _state = stithi.paused;
       notifyListeners();
-      print("sent paused %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
+      print(
+          "sent paused %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
     } else if (_state == stithi.paused) {
-      playerPageService.resumePlayer();
+      await playerPageService.resumePlayer();
       _state = stithi.playing;
       notifyListeners();
-       print("sent playing %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
-    }
-    else if (_state == stithi.stopped) {
+      print(
+          "sent playing %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
+    } else if (_state == stithi.stopped) {
       _state = stithi.buffering;
       notifyListeners();
-      print("sent buffering %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
-    await playerPageService.startPlayer();
-    _state = stithi.playing;
+      print(
+          "sent buffering %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
+      await playerPageService.startPlayer().then(
+            (value) => printIt(
+              (value),
+            ),
+          );
+      _state = stithi.playing;
       notifyListeners();
-       print("sent playing %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
-    }
-    else if (_state == stithi.buffering) {
+      print(
+          "sent playing %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
+    } else if (_state == stithi.buffering) {
       print("Maybe reached here");
-    }
-
-    else
-    {
+      await playerPageService.stopPlayer();
+      _state = stithi.stopped;
+      notifyListeners();
+    } else {
       print(" Na kharma kaaliipoyindi ra");
       print(_state);
     }
   }
 
-  initial(int i) {
+  pausedFromNotif() {}
+  initial(int i) async {
     print(i);
-  
+    await playerPageService.initPlayer(i);
+  }
+
+  printIt(value) {
+    print("I am in the then part with this value => " + value.toString());
   }
 }

@@ -5,62 +5,54 @@ class PlayerPageService {
 
   int trackNumber;
 
-  void stopPlayer() {
-    trackPlayer.stopPlayer();
+  Future stopPlayer() async {
+   await trackPlayer.stopPlayer();
   }
 
   Future startPlayer() async {
-    
-    initPlayer();
     print(trackNumber);
     await trackPlayer.startPlayerFromTrack(
-      Track(
-        trackPath: _songsList[0], // An example audio file
-        trackTitle: "Track Title",
-        trackAuthor: "Track Author",
-        albumArtUrl:
-            "https://file-examples.com/wp-content/uploads/2017/10/file_example_PNG_1MB.png", // An example image
-      ),
-      whenFinished: () {
-        print('I hope you enjoyed listening to this song');
-      },
-      whenPaused: pausePlayer(),
-      onSkipBackward: () {
-        print('Skip backward');
-        stopPlayer();
-      },
-      onSkipForward: () {
-        print('Skip forward');
-        stopPlayer();
-      },
-    );
+        Track(
+          trackPath: _songsList[trackNumber],
+          trackTitle: "Track Title",
+          trackAuthor: "Track Author",
+          albumArtUrl:
+              "https://file-examples.com/wp-content/uploads/2017/10/file_example_PNG_1MB.png", // An example image
+        ),
+        whenFinished: tellModel());
   }
 
-  void resumePlayer() {
-    trackPlayer.resumePlayer();
+  Future resumePlayer() async {
+    await trackPlayer.resumePlayer();
   }
 
-  pausePlayer() {
-    trackPlayer.pausePlayer();
-  }
-  void aapuPlayer() {
-    trackPlayer.pausePlayer();
+  pausePlayer() {}
+
+  // 'Aapu' is telugu for stop. I know it doesn't exactly fit, but its like 'roko' in hindi.
+
+  Future aapuPlayer() async {
+    await trackPlayer.pausePlayer();
   }
 
-  void initPlayer() async {
+  Future initPlayer(int i) async {
     trackPlayer = await TrackPlayer().initialize();
+    trackNumber = i;
   }
 
   List<String> _songsList = [
-    "https://audioboom.com/posts/7552962.mp3?modified=1586457466",
-    "https://audioboom.com/posts/7552962.mp3?modified=1586457466",
-    "https://audioboom.com/posts/7552962.mp3?modified=1586457466",
-    "https://audioboom.com/posts/7552962.mp3?modified=1586457466",
-    "https://audioboom.com/posts/7552962.mp3?modified=1586457466",
-    "https://audioboom.com/posts/7552962.mp3?modified=1586457466",
-    "https://audioboom.com/posts/7552962.mp3?modified=1586457466",
-    "https://audioboom.com/posts/7552962.mp3?modified=1586457466",
-    "https://audioboom.com/posts/7552962.mp3?modified=1586457466",
-    "https://audioboom.com/posts/7552962.mp3?modified=1586457466",
+    "http://traffic.libsyn.com/astronomycast/AstroCast-200413.mp3?dest-id=11189",
+    "https://www.barbneal.com/wp-content/uploads/spock02.mp3",
+    "https://www.barbneal.com/wp-content/uploads/spock03.mp3",
+    "https://www.barbneal.com/wp-content/uploads/spock04.mp3",
+    "https://www.barbneal.com/wp-content/uploads/spock05.mp3",
+    "https://www.barbneal.com/wp-content/uploads/spock06.mp3",
+    "https://www.barbneal.com/wp-content/uploads/spock07.mp3",
+    "https://www.barbneal.com/wp-content/uploads/spock08.mp3",
+    "https://www.barbneal.com/wp-content/uploads/spock09.mp3",
+    "https://www.barbneal.com/wp-content/uploads/spock10.mp3",
   ];
+
+  tellModel() {
+    return true;
+  }
 }
