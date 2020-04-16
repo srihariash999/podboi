@@ -1,6 +1,6 @@
 # podboi
 
-A simple podcast app made in flutter that aims to just get the work done easily and beutifully.
+A simple podcast app made in flutter that aims to just get the work done easily and beautifully.
 
 
 
