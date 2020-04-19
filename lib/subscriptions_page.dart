@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import 'package:podboi/player-page.dart';
+import 'package:podboi/views/player_page_view.dart';
 
 // void main() async {
 //   var search = Search();

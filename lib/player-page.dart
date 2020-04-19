@@ -113,80 +113,80 @@
 //   }
 // }
 
-import 'package:flutter/material.dart';
-import 'package:flutter_sound/track_player.dart';
+// import 'package:flutter/material.dart';
+// import 'package:flutter_sound/track_player.dart';
 
-class Player extends StatefulWidget {
-  Player({Key key}) : super(key: key);
+// class Player extends StatefulWidget {
+//   Player({Key key}) : super(key: key);
 
-  @override
-  _PlayerState createState() => _PlayerState();
-}
+//   @override
+//   _PlayerState createState() => _PlayerState();
+// }
 
-class _PlayerState extends State<Player> {
-  TrackPlayer trackPlayer;
+// class _PlayerState extends State<Player> {
+//   TrackPlayer trackPlayer;
 
-  @override
-  void initState() {
-    super.initState();
-    trackPlayer = TrackPlayer();
-    _init();
-  }
+//   @override
+//   void initState() {
+//     super.initState();
+//     trackPlayer = TrackPlayer();
+//     _init();
+//   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.black,
-      ),
-      body: Container(
-        child: IconButton(
-            icon: Icon(Icons.music_note),
-            onPressed: () async {
-              await trackPlayer.startPlayerFromTrack(
-                track,
-                whenFinished: () {
-                  print('I hope you enjoyed listening to this song');
-                },
-                whenPaused: pausePlayer(),
-                onSkipBackward: () {
-                  print('Skip backward');
-                  stopPlayer();
-                  startPlayer();
-                },
-                onSkipForward: () {
-                  print('Skip forward');
-                  stopPlayer();
-                  startPlayer();
-                },
-              );
-            }),
-      ),
-    );
-  }
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         backgroundColor: Colors.black,
+//       ),
+//       body: Container(
+//         child: IconButton(
+//             icon: Icon(Icons.music_note),
+//             onPressed: () async {
+//               await trackPlayer.startPlayerFromTrack(
+//                 track,
+//                 whenFinished: () {
+//                   print('I hope you enjoyed listening to this song');
+//                 },
+//                 whenPaused: pausePlayer(),
+//                 onSkipBackward: () {
+//                   print('Skip backward');
+//                   stopPlayer();
+//                   startPlayer();
+//                 },
+//                 onSkipForward: () {
+//                   print('Skip forward');
+//                   stopPlayer();
+//                   startPlayer();
+//                 },
+//               );
+//             }),
+//       ),
+//     );
+//   }
 
-  Track track = new Track(
-    trackPath:
-        "http://traffic.libsyn.com/astronomycast/AstroCast-200413.mp3?dest-id=11189", // An example audio file
-    trackTitle: "Track Title",
-    trackAuthor: "Track Author",
-    albumArtUrl:
-        "https://file-examples.com/wp-content/uploads/2017/10/file_example_PNG_1MB.png", // An example image
-  );
+//   Track track = new Track(
+//     trackPath:
+//         "http://traffic.libsyn.com/astronomycast/AstroCast-200413.mp3?dest-id=11189", // An example audio file
+//     trackTitle: "Track Title",
+//     trackAuthor: "Track Author",
+//     albumArtUrl:
+//         "https://file-examples.com/wp-content/uploads/2017/10/file_example_PNG_1MB.png", // An example image
+//   );
 
-  void stopPlayer() {
-    trackPlayer.stopPlayer();
-  }
+//   void stopPlayer() {
+//     trackPlayer.stopPlayer();
+//   }
 
-  void startPlayer() {
-    trackPlayer.stopPlayer();
-  }
+//   void startPlayer() {
+//     trackPlayer.stopPlayer();
+//   }
 
-  void _init() async {
-    trackPlayer = await TrackPlayer().initialize();
-  }
+//   void _init() async {
+//     trackPlayer = await TrackPlayer().initialize();
+//   }
 
-  pausePlayer() {
-    trackPlayer.pausePlayer();
-  }
-}
+//   pausePlayer() {
+//     trackPlayer.pausePlayer();
+//   }
+// }

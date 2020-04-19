@@ -8,9 +8,11 @@ GetIt locator = GetIt.instance;
 
 void setupLocator() {
   // Register services
-locator.registerLazySingleton<PlayerPageService>(() => PlayerPageService());
-locator.registerLazySingleton<SubscriptionsPageService>(() => SubscriptionsPageService());
- // register models
-  locator.registerFactory<SubscriptionsPageModel>(() => SubscriptionsPageModel());
+  locator.registerLazySingleton<PlayerPageService>(() => PlayerPageService());
+  locator.registerLazySingleton<SubscriptionsPageService>(
+      () => SubscriptionsPageService());
   locator.registerFactory<PlayerPageModel>(() => PlayerPageModel());
+  // register models
+  locator
+      .registerFactory<SubscriptionsPageModel>(() => SubscriptionsPageModel());
 }
