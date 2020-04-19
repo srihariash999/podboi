@@ -9,7 +9,7 @@ This is a dev branch, I test things, move stuff around or just replace things en
 
 # Dev Screenshot (Progress):
 
-
+<img src="https://github.com/srihariash999/podboi/blob/dev/screenshots/app.gif" width="250" height="500">
 
 # Note:
 
