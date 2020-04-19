@@ -1,25 +1,27 @@
+import 'package:flutter_sound/flutter_sound_player.dart';
 import 'package:flutter_sound/track_player.dart';
 
 class PlayerPageService {
-  TrackPlayer trackPlayer;
+  FlutterSoundPlayer trackPlayer;
 
   int trackNumber;
 
   Future stopPlayer() async {
-   await trackPlayer.stopPlayer();
+    await trackPlayer.stopPlayer();
   }
 
   Future startPlayer() async {
     print(trackNumber);
-    await trackPlayer.startPlayerFromTrack(
-        Track(
-          trackPath: _songsList[trackNumber],
-          trackTitle: "Track Title",
-          trackAuthor: "Track Author",
-          albumArtUrl:
-              "https://file-examples.com/wp-content/uploads/2017/10/file_example_PNG_1MB.png", // An example image
-        ),
-        whenFinished: tellModel());
+    // await trackPlayer.startPlayerFromTrack(
+    //   Track(
+    //     trackPath: _songsList[trackNumber],
+    //     trackTitle: "Track Title",
+    //     trackAuthor: "Track Author",
+    //     albumArtUrl:
+    //         "https://images.theabcdn.com/i/24025650.jpg", // An example image
+    //   ),
+    // );
+    await trackPlayer.startPlayer(_songsList[trackNumber]);
   }
 
   Future resumePlayer() async {
@@ -31,7 +33,9 @@ class PlayerPageService {
   // 'Aapu' is telugu for stop. I know it doesn't exactly fit, but its like 'roko' in hindi.
 
   Future aapuPlayer() async {
-    await trackPlayer.pausePlayer();
+  
+      await trackPlayer.pausePlayer();
+    
   }
 
   Future initPlayer(int i) async {
@@ -41,7 +45,7 @@ class PlayerPageService {
 
   List<String> _songsList = [
     "http://traffic.libsyn.com/astronomycast/AstroCast-200413.mp3?dest-id=11189",
-    "https://www.barbneal.com/wp-content/uploads/spock02.mp3",
+    "https://audioboom.com/posts/7540863.mp3?modified=1585340832",
     "https://www.barbneal.com/wp-content/uploads/spock03.mp3",
     "https://www.barbneal.com/wp-content/uploads/spock04.mp3",
     "https://www.barbneal.com/wp-content/uploads/spock05.mp3",
@@ -51,8 +55,4 @@ class PlayerPageService {
     "https://www.barbneal.com/wp-content/uploads/spock09.mp3",
     "https://www.barbneal.com/wp-content/uploads/spock10.mp3",
   ];
-
-  tellModel() {
-    return true;
-  }
 }

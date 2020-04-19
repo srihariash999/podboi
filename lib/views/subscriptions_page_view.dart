@@ -1,111 +1,283 @@
+import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
+import 'package:flutter_swiper/flutter_swiper.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:podboi/models/subscriptions_page_model.dart';
 import 'package:podboi/service_locator.dart';
-import 'package:podboi/widgets/subscription_list_item.dart';
+import 'package:podboi/views/player_page_view.dart';
+
 import 'package:scoped_model/scoped_model.dart';
 
 class SubscriptionsPageView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-
-     //TODO -  Change the scaffold being the descendent to the child that's actually changing.
-
     return ScopedModel<SubscriptionsPageModel>(
-      model: locator<SubscriptionsPageModel>(),
-      child: ScopedModelDescendant<SubscriptionsPageModel>(
-          builder: (context, child, model) {
-        String _imageLoadingState = model.getImageLoadingState();
-        if (_imageLoadingState == "notLoaded") {
-          model.startLoadingImages();
-        }
-        return model.getView() == "listview"
-            ? Scaffold(
-                body: ListView.builder(
-                  itemCount: model.getLength(),
-                  itemBuilder: (context, i) {
-                    return GestureDetector(
-                      onTap: () {
-                        model.tappedAction(context, i);
-                      },
-                      child: SubscriptionListItem(
-                        coverArtURL: model.getCoverArt(i),
-                        podcastAuthor: model.getAuthor(i),
-                        podcastTitle: model.getTitle(i),
-                      ),
-                    );
-                  },
-                ),
-              )
-            : Scaffold(
-                backgroundColor: Colors.black,
-                appBar: AppBar(
-                  leading: IconButton(
-                    icon: Icon(Icons.menu),
-                    onPressed: () {},
-                    color: Colors.white,
-                  ),
-                  backgroundColor: Colors.black,
-                  title: Text("podboi"),
-                ),
-                body: SingleChildScrollView(
-                  child: Column(
-                    children: <Widget>[
-                      Container(
-                        height: 350,
-                        child: GridView.builder(
-                          scrollDirection: Axis.horizontal,
-                          padding: EdgeInsets.all(10.0),
-                          itemCount: model.getLength(),
-                          shrinkWrap: true,
-                          gridDelegate:
-                              new SliverGridDelegateWithFixedCrossAxisCount(
-                                  mainAxisSpacing: 1.0,
-                                  crossAxisSpacing: 5.0,
-                                  crossAxisCount: 3),
-                          itemBuilder: (BuildContext context, int index) {
-                            return Neumorphic(
-                              style: NeumorphicStyle(
-                                  color: Colors.black,
-                                  shape: NeumorphicShape.convex,
-                                  lightSource: LightSource.bottomRight),
-                              boxShape: NeumorphicBoxShape.roundRect(
-                                borderRadius: BorderRadius.circular(16.0),
-                              ),
-                              child: Container(
-                                padding: EdgeInsets.all(16.0),
-                                // margin: EdgeInsets.all(8.0),
-                                child: _imageLoadingState == "loading" ||
-                                        _imageLoadingState == "notLoaded"
-                                    ? Center(
-                                        child: Text(
-                                        "loading..",
-                                        style: TextStyle(color: Colors.white),
-                                      ))
-                                    : Image.network(
-                                        model.getCoverArt(index),
-                                        fit: BoxFit.cover,
-                                      ),
-                              ),
-                            );
-                          },
+        model: locator<SubscriptionsPageModel>(),
+        child: Scaffold(
+          backgroundColor: Colors.white,
+          // appBar: AppBar(
+          //   leading: IconButton(
+          //     icon: Icon(Icons.menu),
+          //     onPressed: () {},
+          //     color: Colors.white,
+          //   ),
+          //   backgroundColor: Colors.black,
+          //   title: Text("podboi"),
+          // ),
+          body: SafeArea(
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Container(
+                    color: Colors.lightGreen,
+                    height: 60.0,
+                    child: Center(
+                      child: Text(
+                        "podboi",
+                        style: GoogleFonts.monoton(
+                          textStyle: TextStyle(
+                            fontSize: 40.0,
+                            color: Colors.white,
+                          ),
                         ),
                       ),
-                      Container(
+                    ),
+                    //padding: EdgeInsets.only(left: 20.0),
+                  ),
+                  Divider(
+                    color: Colors.grey,
+                  ),
+                  Container(
+                    padding: EdgeInsets.only(left: 20.0),
+                    child: Text(
+                      "Your Subscriptions",
+                      style: GoogleFonts.specialElite(
+                          textStyle: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 24.0)),
+                    ),
+                  ),
+                  // Divider(
+                  //   color: Colors.grey,
+                  // ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 15.0),
+                    child: Container(
+                      height: 280,
+                      child: ScopedModelDescendant<SubscriptionsPageModel>(
+                        builder: (context, child, model) {
+                          String _imageLoadingState =
+                              model.getImageLoadingState();
+                          if (_imageLoadingState == "notLoaded") {
+                            model.startLoadingImages();
+                          }
+                          return GridView.builder(
+                            scrollDirection: Axis.horizontal,
+                            padding: EdgeInsets.all(10.0),
+                            itemCount: model.requestLength(),
+                            shrinkWrap: true,
+                            gridDelegate:
+                                SliverGridDelegateWithFixedCrossAxisCount(
+                                    mainAxisSpacing: 5.0,
+                                    crossAxisSpacing: 5.0,
+                                    crossAxisCount: 3),
+                            itemBuilder: (BuildContext context, int index) {
+                              //TODO:  Wrap the box with a gesture detector and add the onTap fucntionality
+                              return GestureDetector(
+                                onTap: () => Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (_) => Player(
+                                      trackNumber: index,
+                                    ),
+                                  ),
+                                ),
+                                child: DottedBorder(
+                                  strokeWidth: 1,
+                                  strokeCap: StrokeCap.round,
+                                  dashPattern: [6, 3, 2, 3],
+                                  borderType: BorderType.RRect,
+                                  radius: Radius.circular(20.0),
+                                  child: _imageLoadingState == "loading" ||
+                                          _imageLoadingState == "notLoaded"
+                                      ? ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(20.0),
+                                          child: Center(
+                                            child: Text(
+                                              "loading..",
+                                              style: TextStyle(
+                                                  color: Colors.black),
+                                            ),
+                                          ),
+                                        )
+                                      : ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(20.0),
+                                          child: Image.network(
+                                            model.requestCoverArt(index),
+                                            fit: BoxFit.contain,
+                                          ),
+                                        ),
+                                ),
+                              );
+                            },
+                          );
+                        },
+                      ),
+                    ),
+                  ),
+                  Divider(
+                    color: Colors.grey,
+                  ),
+                  Container(
+                    padding: EdgeInsets.only(left: 20.0),
+                    child: Text(
+                      "New Releases",
+                      style: GoogleFonts.specialElite(
+                        textStyle: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 24.0,
+                        ),
+                      ),
+                    ),
+                  ),
+                  // Divider(
+                  //   color: Colors.grey,
+                  // ),
+                  ScopedModelDescendant<SubscriptionsPageModel>(
+                    builder: (context, child, model) {
+                      String _imageLoadingState = model.getImageLoadingState();
+                      if (_imageLoadingState == "notLoaded") {
+                        model.startLoadingImages();
+                      }
+                      //TODO: Extract the widget tree this descendent is returning and keep it as a separate widget in /widgets folder
+                      return Container(
                         height: 250,
-                        child: Placeholder(),
-                      ),
-                      Container(
-                        height: 200,
-                        child: Center(
-                          child: Text("poop"),
+                        child: Swiper(
+                          itemBuilder: (BuildContext context, int index) {
+                            return Card(
+                                child: Center(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 25.0),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        Expanded(
+                                          child: _imageLoadingState ==
+                                                      "loading" ||
+                                                  _imageLoadingState ==
+                                                      "notLoaded"
+                                              ? Container(
+                                                  child: Center(
+                                                    child: Text("Loading..."),
+                                                  ),
+                                                )
+                                              : Image.network(
+                                                  model.requestCoverArt(index),
+                                                  fit: BoxFit.scaleDown,
+                                                ),
+                                        ),
+                                        Expanded(
+                                          flex: 3,
+                                          child: Container(
+                                            child: ListTile(
+                                              title: Text(
+                                                model.requestPodcastName(index),
+                                                style: GoogleFonts.specialElite(
+                                                  textStyle: TextStyle(
+                                                    fontSize: 16.0,
+                                                  ),
+                                                ),
+                                              ),
+                                              subtitle: Text(
+                                                model
+                                                    .requestUploadedTime(index),
+                                                style:
+                                                    GoogleFonts.indieFlower(),
+                                              ),
+                                            ),
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                  ListTile(
+                                    title: Text(
+                                      model.requestEpisodeName(index),
+                                      style: GoogleFonts.specialElite(
+                                        textStyle: TextStyle(
+                                          fontSize: 16.0,
+                                        ),
+                                      ),
+                                    ),
+                                    subtitle: Text(
+                                      model.requestEpisodeLength(index),
+                                      style: GoogleFonts.indieFlower(
+                                        textStyle: TextStyle(
+                                          fontSize: 16.0,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      IconButton(
+                                        icon: Icon(
+                                          Icons.play_circle_filled,
+                                          color: Colors.black,
+                                        ),
+                                        onPressed: () {},
+                                      ),
+                                      IconButton(
+                                        icon: Icon(
+                                          Icons.playlist_add,
+                                          color: Colors.blue,
+                                        ),
+                                        onPressed: () {},
+                                      ),
+                                      IconButton(
+                                        icon: Icon(
+                                          Icons.file_download,
+                                          color: Colors.green,
+                                        ),
+                                        onPressed: () {},
+                                      ),
+                                    ],
+                                  )
+                                ],
+                              ),
+                            ));
+                          },
+                          itemCount: model.requestLength(),
+                          viewportFraction: 0.7,
+                          scale: 0.8,
                         ),
-                      )
-                    ],
+                      );
+                    },
                   ),
-                ),
-              );
-      }),
-    );
+                  Container(
+                    height: 200,
+                    child: Center(),
+                  )
+                ],
+              ),
+            ),
+          ),
+        ));
   }
 }
