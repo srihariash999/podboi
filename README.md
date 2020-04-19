@@ -2,7 +2,9 @@
 
 A simple podcast app made in flutter that aims to just get the work done easily and beautifully.
 
+# Info :
 
+For current changes and progress, checkout the dev branch of this repo.
 
 # Note:
 
