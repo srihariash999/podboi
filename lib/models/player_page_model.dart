@@ -1,5 +1,5 @@
 import 'dart:math';
-import 'package:audiofileplayer/audiofileplayer.dart';
+import 'package:flutter_sound/track_player.dart';
 import 'package:podboi/service_locator.dart';
 import 'package:podboi/services/player_page_service.dart';
 import 'package:podboi/state_enums.dart';
@@ -20,7 +20,7 @@ class PlayerPageModel extends Model {
     // If pressed when the player was playing
 
     if (_state == stithi.playing) {
-      await aapuPlayer();
+      await pausePlayer();
       _state = stithi.paused;
       notifyListeners();
       print(
@@ -43,16 +43,18 @@ class PlayerPageModel extends Model {
       notifyListeners();
       print(
           "sent buffering %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
-      startPlayer();
+      await startPlayer();
+      _state = stithi.playing;
+      notifyListeners();
     }
 
     // If pressed when the player was buffering
 
     else if (_state == stithi.buffering) {
       print("Maybe reached here");
-      await onFinishedCallback();
-      // _state = stithi.stopped;
-      // notifyListeners();
+      await stopPlayer();
+      _state = stithi.stopped;
+      notifyListeners();
     }
 
     // Some unknown state which was encountered somehow !
@@ -73,58 +75,66 @@ class PlayerPageModel extends Model {
     print("I am in the then part with this value => " + value.toString());
   }
 
-  onDurationCallBack(double e) {
-    print(e);
-    _state = stithi.playing;
-    notifyListeners();
-    print(
-        "sent playing %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
-  }
-
-  onPositionCallback(e) {
-    print(e);
-  }
-
-  onFinishedCallback()
-  {
-     audio.dispose();
-     _state = stithi.stopped;
-     notifyListeners();
-  }
-
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   // All things that should be in a service but are here because I can't figure things out.
 
-  Audio audio;
+  TrackPlayer trackPlayer;
   int trackNumber;
   var duration;
 
 
-
-  startPlayer() {
-    audio = Audio.loadFromRemoteUrl(_songsList[trackNumber],
-        playInBackground: true, onDuration: (e) {
-      onDurationCallBack(e);
-    }, onPosition: (e) {
-      onPositionCallback(e);
-    }, onComplete: () {
-      onFinishedCallback();
-    });
-
-    audio.play();
+  startPlayer() async {
+    await initPlayer();
+ await trackPlayer.startPlayerFromTrack(
+      Track(
+        trackPath:
+            _songsList[trackNumber] ,// An example audio file
+        trackTitle: "Track Title",
+        trackAuthor: "Track Author",
+        albumArtUrl:
+            "https://file-examples.com/wp-content/uploads/2017/10/file_example_PNG_1MB.png", // An example image
+      ),
+      whenFinished: () {
+        print('I hope you enjoyed listening to this song');
+        stopPlayer();
+      },
+      whenPaused: func() ,
+      
+      onSkipBackward: () {
+        print('Skip backward');
+        
+      },
+      onSkipForward: () {
+        print('Skip forward');
+      },
+    );
+    
+  }
+ 
+   func()
+  {
+    print("something");    
   }
 
-  Future resumePlayer() async {
-    audio.resume();
+  resumePlayer() async {
+    await trackPlayer.resumePlayer();
   }
 
-  pausePlayer() {}
+  pausePlayer() async {
+    await trackPlayer.pausePlayer();
+  }
 
-  // 'Aapu' is telugu for stop. I know it doesn't exactly fit, but its like 'roko' in hindi.
+  stopPlayer() async {
+    await trackPlayer.stopPlayer();
+    trackPlayer.release();
+    _state = stithi.stopped;
+    notifyListeners();
+  }
 
-  Future aapuPlayer() async {
-    await audio.pause();
+  initPlayer() {
+    trackPlayer = TrackPlayer();
+    trackPlayer.initialize();
   }
 
   initTrack(int i) {

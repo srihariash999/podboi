@@ -4,5 +4,9 @@ import 'package:podboi/views/subscriptions_page_view.dart';
 
 void main() {
   setupLocator();
-  runApp(MaterialApp(home: SubscriptionsPageView()));
+  runApp(
+    MaterialApp(
+      home: SubscriptionsPageView(),
+    ),
+  );
 }
