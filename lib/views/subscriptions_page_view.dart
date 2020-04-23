@@ -5,6 +5,7 @@ import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:podboi/models/subscriptions_page_model.dart';
 import 'package:podboi/service_locator.dart';
+import 'package:podboi/views/add_podcast_page_view.dart';
 import 'package:podboi/views/player_page_view.dart';
 
 import 'package:scoped_model/scoped_model.dart';
@@ -30,21 +31,36 @@ class SubscriptionsPageView extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Container(
-                    color: Colors.lightGreen,
-                    height: 60.0,
-                    child: Center(
-                      child: Text(
-                        "podboi",
-                        style: GoogleFonts.monoton(
-                          textStyle: TextStyle(
-                            fontSize: 40.0,
-                            color: Colors.white,
+                  Row(
+                    children: <Widget>[
+                      Container(
+                        color: Colors.lightGreen,
+                        height: 60.0,
+                        child: Center(
+                          child: Text(
+                            "podboi",
+                            style: GoogleFonts.monoton(
+                              textStyle: TextStyle(
+                                fontSize: 40.0,
+                                color: Colors.white,
+                              ),
+                            ),
                           ),
                         ),
+                        //padding: EdgeInsets.only(left: 20.0),
                       ),
-                    ),
-                    //padding: EdgeInsets.only(left: 20.0),
+                      Container(
+                          child: IconButton(
+                              icon: Icon(Icons.leak_add),
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (_) => AddPodcasts(),
+                                  ),
+                                );
+                              })),
+                    ],
                   ),
                   Divider(
                     color: Colors.grey,
