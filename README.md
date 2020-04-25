@@ -15,9 +15,8 @@ This is a dev branch, I test things, move stuff around or just replace things en
 
 
 
-
+<b>Add Podcasts Page </b>
 <p float="left">
-  <b>Add Podcasts Page </b>
   <img src="https://github.com/srihariash999/podboi/blob/dev/screenshots/addPodcasts.jpg" width="250" height="500">
  <img src="https://github.com/srihariash999/podboi/blob/dev/screenshots/SearchResults.jpg" width="250" height="500">
 </p>
