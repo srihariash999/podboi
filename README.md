@@ -9,7 +9,18 @@ This is a dev branch, I test things, move stuff around or just replace things en
 
 # Dev Screenshot (Progress):
 
+<b>Main screen </b>
+
 <img src="https://github.com/srihariash999/podboi/blob/dev/screenshots/app.gif" width="250" height="500">
+
+
+
+
+<p float="left">
+  <b>Add Podcasts Page </b>
+  <img src="https://github.com/srihariash999/podboi/blob/dev/screenshots/addPodcasts.jpg" width="250" height="500">
+ <img src="https://github.com/srihariash999/podboi/blob/dev/screenshots/SearchResults.jpg" width="250" height="500">
+</p>
 
 # Note:
 
