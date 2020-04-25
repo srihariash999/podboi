@@ -5,6 +5,7 @@ import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:podboi/models/subscriptions_page_model.dart';
 import 'package:podboi/service_locator.dart';
+import 'package:podboi/views/add_podcast_page_view.dart';
 import 'package:podboi/views/player_page_view.dart';
 
 import 'package:scoped_model/scoped_model.dart';
@@ -32,19 +33,49 @@ class SubscriptionsPageView extends StatelessWidget {
                 children: <Widget>[
                   Container(
                     color: Colors.lightGreen,
-                    height: 60.0,
-                    child: Center(
-                      child: Text(
-                        "podboi",
-                        style: GoogleFonts.monoton(
-                          textStyle: TextStyle(
-                            fontSize: 40.0,
-                            color: Colors.white,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: <Widget>[
+                        Container(
+                          height: 60.0,
+                          child: Center(
+                            child: Text(
+                              "podboi",
+                              style: GoogleFonts.monoton(
+                                textStyle: TextStyle(
+                                  fontSize: 40.0,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ),
+                          ),
+                          //padding: EdgeInsets.only(left: 20.0),
+                        ),
+                        SizedBox(
+                          width: 25.0,
+                        ),
+                        Container(
+                          height: 60.0,
+                          child: RaisedButton(
+                            elevation: 9.0,
+                            color: Colors.lightBlueAccent,
+                            shape: CircleBorder(),
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (_) => AddPodcasts(),
+                                ),
+                              );
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.all(12.0),
+                              child: Image.asset("assets/podcast.png"),
+                            ),
                           ),
                         ),
-                      ),
+                      ],
                     ),
-                    //padding: EdgeInsets.only(left: 20.0),
                   ),
                   Divider(
                     color: Colors.grey,

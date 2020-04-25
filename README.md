@@ -2,9 +2,23 @@
 
 A simple podcast app made in flutter that aims to just get the work done easily and beautifully.
 
-# Info :
+# Info:
+This is a dev branch, I test things, move stuff around or just replace things entirely sometimes. I only push the changes I'm finally with and most probably won't change in near future.
 
-For current changes and progress, checkout the dev branch of this repo.
+
+# Dev Screenshot (Progress):
+
+<b>Main screen </b>
+
+<img src="https://github.com/srihariash999/podboi/blob/dev/screenshots/app.gif" width="250" height="500">
+
+
+
+<b>Add Podcasts Page </b>
+<p float="left">
+  <img src="https://github.com/srihariash999/podboi/blob/dev/screenshots/addPodcasts.jpg" width="280" >
+ <img src="https://github.com/srihariash999/podboi/blob/dev/screenshots/SearchResults.jpg" width="280" >
+</p>
 
 # Note:
 

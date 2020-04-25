@@ -1,6 +1,14 @@
 import 'package:podcast_search/podcast_search.dart';
 import 'package:flutter/material.dart';
 
+
+
+// These are old files I made when I started this project a while ago. Since then I moved to a different
+// state management solution, Scoped Model. So, these files are here for any reference I might need. Will delete in future.
+
+
+
+
 class AddPodcasts extends StatefulWidget {
   @override
   _AddPodcastsState createState() => _AddPodcastsState();
