@@ -3,6 +3,13 @@ import 'package:flutter/material.dart';
 
 import 'package:podboi/views/player_page_view.dart';
 
+
+
+// These are old files I made when I started this project a while ago. Since then I moved to a different
+// state management solution, Scoped Model. So, these files are here for any reference I might need. Will delete in future.
+
+
+
 // void main() async {
 //   var search = Search();
 

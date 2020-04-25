@@ -1,5 +1,6 @@
 import 'dart:math';
-import 'package:flutter_sound/track_player.dart';
+
+import 'package:flutter_sound_lite/track_player.dart';
 import 'package:podboi/service_locator.dart';
 import 'package:podboi/services/player_page_service.dart';
 import 'package:podboi/state_enums.dart';
@@ -21,20 +22,12 @@ class PlayerPageModel extends Model {
 
     if (_state == stithi.playing) {
       await pausePlayer();
-      _state = stithi.paused;
-      notifyListeners();
-      print(
-          "sent paused %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
     }
 
     // If pressed when the player was paused
 
     else if (_state == stithi.paused) {
       await resumePlayer();
-      _state = stithi.playing;
-      notifyListeners();
-      print(
-          "sent playing %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
     }
 
     // If pressed when the player was stopped
@@ -53,8 +46,6 @@ class PlayerPageModel extends Model {
     else if (_state == stithi.buffering) {
       print("Maybe reached here");
       await stopPlayer();
-      _state = stithi.stopped;
-      notifyListeners();
     }
 
     // Some unknown state which was encountered somehow !
@@ -83,13 +74,11 @@ class PlayerPageModel extends Model {
   int trackNumber;
   var duration;
 
-
   startPlayer() async {
     await initPlayer();
- await trackPlayer.startPlayerFromTrack(
+    await trackPlayer.startPlayerFromTrack(
       Track(
-        trackPath:
-            _songsList[trackNumber] ,// An example audio file
+        trackPath: _songsList[trackNumber], // An example audio file
         trackTitle: "Track Title",
         trackAuthor: "Track Author",
         albumArtUrl:
@@ -99,30 +88,38 @@ class PlayerPageModel extends Model {
         print('I hope you enjoyed listening to this song');
         stopPlayer();
       },
-      whenPaused: func() ,
-      
+      onPaused: (bool e) async {
+        if (e) {
+          pausePlayer();
+        }
+        if (!e) {
+          resumePlayer();
+        }
+      },
       onSkipBackward: () {
         print('Skip backward');
-        
       },
       onSkipForward: () {
         print('Skip forward');
       },
     );
-    
   }
- 
-   func()
-  {
-    print("something");    
+
+  func() {
+    print("something");
   }
 
   resumePlayer() async {
     await trackPlayer.resumePlayer();
+    _state = stithi.playing;
+    notifyListeners();
   }
 
   pausePlayer() async {
     await trackPlayer.pausePlayer();
+    _state = stithi.paused;
+    print("sent paused from notifs");
+    notifyListeners();
   }
 
   stopPlayer() async {

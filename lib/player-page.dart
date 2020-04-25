@@ -1,3 +1,8 @@
+
+// These are old files I made when I started this project a while ago. Since then I moved to a different
+// state management solution, Scoped Model. So, these files are here for any reference I might need. Will delete in future.
+
+
 // import 'package:flutter/material.dart';
 // import 'package:flutter_sound/flutter_sound_player.dart';
 

@@ -31,36 +31,51 @@ class SubscriptionsPageView extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Row(
-                    children: <Widget>[
-                      Container(
-                        color: Colors.lightGreen,
-                        height: 60.0,
-                        child: Center(
-                          child: Text(
-                            "podboi",
-                            style: GoogleFonts.monoton(
-                              textStyle: TextStyle(
-                                fontSize: 40.0,
-                                color: Colors.white,
+                  Container(
+                    color: Colors.lightGreen,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: <Widget>[
+                        Container(
+                          height: 60.0,
+                          child: Center(
+                            child: Text(
+                              "podboi",
+                              style: GoogleFonts.monoton(
+                                textStyle: TextStyle(
+                                  fontSize: 40.0,
+                                  color: Colors.black,
+                                ),
                               ),
                             ),
                           ),
+                          //padding: EdgeInsets.only(left: 20.0),
                         ),
-                        //padding: EdgeInsets.only(left: 20.0),
-                      ),
-                      Container(
-                          child: IconButton(
-                              icon: Icon(Icons.leak_add),
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (_) => AddPodcasts(),
-                                  ),
-                                );
-                              })),
-                    ],
+                        SizedBox(
+                          width: 25.0,
+                        ),
+                        Container(
+                          height: 60.0,
+                          child: RaisedButton(
+                            elevation: 9.0,
+                            color: Colors.lightBlueAccent,
+                            shape: CircleBorder(),
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (_) => AddPodcasts(),
+                                ),
+                              );
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.all(12.0),
+                              child: Image.asset("assets/podcast.png"),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                   Divider(
                     color: Colors.grey,
