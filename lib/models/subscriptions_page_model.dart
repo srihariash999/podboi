@@ -30,11 +30,12 @@ class SubscriptionsPageModel extends Model {
       _imageLoadingState = "loading";
       notifyListeners();
 
-      for (int i = 0; i < subscriptionsPageService.podcastURLs.length; i++) {
+      var l = await subscriptionsPageService.getLength();
+
+      for (int i = 0; i < l ; i++) {
         String n = await subscriptionsPageService.getCoverArtURL(i);
         imageURLS.add(n);
       }
-
       _imageLoadingState = "loaded";
       print("Images loaded");
       notifyListeners();
@@ -46,7 +47,7 @@ class SubscriptionsPageModel extends Model {
   }
 
   int requestLength() {
-    return 10;
+    return subscriptionsPageService.getLength();
   }
 
   requestPodcastName(int i) {
@@ -68,6 +69,10 @@ class SubscriptionsPageModel extends Model {
 
     return _n.toString() + " minutes";
   }
+
+
+  
+
 
   tappedAction(BuildContext context, i) {
     Navigator.push(

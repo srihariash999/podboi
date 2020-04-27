@@ -51,6 +51,7 @@ class AddPodcasts extends StatelessWidget {
                             ),
                             onPressed: () {
                               model.textSubmitted(_searchTextController.text);
+                              _searchTextController.clear();
                             },
                           ),
                         ),
@@ -172,6 +173,7 @@ class AddPodcasts extends StatelessWidget {
                                           onPressed: () {
                                             print(
                                                 "Add search Item at  $index  to library");
+                                                model.storeAsSubscription(index);
                                           },
                                         ),
                                       ),
