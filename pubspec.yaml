@@ -5,7 +5,7 @@ description: A simple podcast app made in flutter that aims to just get the work
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.1.0 <3.0.0"
+  sdk: ">=2.2.2 <3.0.0"
 
 dependencies:
   flutter:
@@ -18,9 +18,11 @@ dependencies:
   google_fonts: ^0.5.0+1
   flutter_swiper: ^1.1.6
   dotted_border: ^1.0.5
-  hive: 
-  hive_flutter: 
-  path_provider:
+  
+  #No other versions work for these three, don't update these unless necessary. Might cause problems
+  hive: ^1.4.1+1
+  hive_flutter: ^0.2.1
+  path_provider: ^1.6.5
 
   
 
@@ -28,7 +30,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   hive_generator:
-  build_runner:
+  build_runner: 
 
 
 # For information on the generic Dart part of this file, see the

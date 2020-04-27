@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hive/hive.dart';
 import 'package:podboi/models/subscriptions_page_model.dart';
 import 'package:podboi/service_locator.dart';
 import 'package:podboi/views/add_podcast_page_view.dart';
@@ -303,7 +304,19 @@ class SubscriptionsPageView extends StatelessWidget {
                   ),
                   Container(
                     height: 200,
-                    child: Center(),
+                    child: Center(
+                      child: IconButton(icon: Icon(Icons.delete), onPressed: ()
+                      {
+                        var box = Hive.box('subscriptionsBox');
+                        for(int i=0; i<box.length; i++)
+                        {
+                          box.deleteAt(i);
+                          print('deleted item at $i');
+                        }
+                        
+                      }
+                      ),
+                    ),
                   )
                 ],
               ),

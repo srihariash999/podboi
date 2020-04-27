@@ -1,15 +1,23 @@
 import 'dart:math' as math;
 
+import 'package:hive/hive.dart';
+
 class SubscriptionsPageService {
-
-
   var x = math.Random();
+  var box = Hive.box('subscriptionsBox');
 
   getCoverArtURL(int i) async {
     // print("trying to load url:  $url");
     //Podcast _podcast = await Podcast.loadFeed(url: url);
     // print(_podcast.image);
-    return imageURLs[i];
+    var p = box.getAt(i);
+    return p.coverArt;
+    //return imageURLs[i];
+  }
+
+  getLength() {
+    print("the length is ${box.length}");
+    return box.length;
   }
 
   getUploadedTime(int i) {
@@ -25,7 +33,7 @@ class SubscriptionsPageService {
   }
 
   getEpisodeLength(int i) {
-     return x.nextInt(120);
+    return x.nextInt(120);
   }
 
   List imageURLs = [
