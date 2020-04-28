@@ -41,6 +41,12 @@ class SubscriptionsPageModel extends Model {
       notifyListeners();
     }
   }
+  handleRefresh()
+  {
+    _imageLoadingState = 'loaded';
+    print('page refreshed');
+    notifyListeners();
+  }
 
   requestCoverArt(i) {
     if (i <= imageURLS.length) return imageURLS[i];

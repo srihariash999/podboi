@@ -3,7 +3,8 @@ import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:podboi/data_models/subscription.dart';
 import 'package:podboi/service_locator.dart';
-import 'package:podboi/views/subscriptions_page_view.dart';
+import 'package:podboi/views/splash_screen_view.dart';
+
 
 Future<void> main() async {
   setupLocator();
@@ -14,7 +15,7 @@ Future<void> main() async {
    await Hive.openBox('subscriptionsBox');
   runApp(
     MaterialApp(
-      home: SubscriptionsPageView(),
+      home: SplashScreen(),
     ),
   );
 }

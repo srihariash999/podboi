@@ -55,25 +55,23 @@ class SubscriptionsPageView extends StatelessWidget {
                         SizedBox(
                           width: 25.0,
                         ),
-                        Container(
-                          height: 60.0,
-                          child: RaisedButton(
-                            elevation: 9.0,
-                            color: Colors.lightBlueAccent,
-                            shape: CircleBorder(),
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (_) => AddPodcasts(),
-                                ),
-                              );
-                            },
-                            child: Padding(
-                              padding: const EdgeInsets.all(12.0),
-                              child: Image.asset("assets/podcast.png"),
-                            ),
-                          ),
+                        ScopedModelDescendant<SubscriptionsPageModel>(
+                          builder: (child, context, model) {
+                            return Container(
+                              height: 60.0,
+                              child: RaisedButton(
+                                elevation: 9.0,
+                                color: Colors.lightBlueAccent,
+                                shape: CircleBorder(),
+                                onPressed: () {
+                                  model.handleRefresh();
+                                },
+                                child: Padding(
+                                    padding: const EdgeInsets.all(12.0),
+                                    child: Icon(Icons.refresh)),
+                              ),
+                            );
+                          },
                         ),
                       ],
                     ),
@@ -109,7 +107,7 @@ class SubscriptionsPageView extends StatelessWidget {
                           return GridView.builder(
                             scrollDirection: Axis.horizontal,
                             padding: EdgeInsets.all(10.0),
-                            itemCount: model.requestLength(),
+                            itemCount: model.requestLength() +1,
                             shrinkWrap: true,
                             gridDelegate:
                                 SliverGridDelegateWithFixedCrossAxisCount(
@@ -118,44 +116,66 @@ class SubscriptionsPageView extends StatelessWidget {
                                     crossAxisCount: 3),
                             itemBuilder: (BuildContext context, int index) {
                               //TODO:  Wrap the box with a gesture detector and add the onTap fucntionality
-                              return GestureDetector(
-                                onTap: () => Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (_) => Player(
-                                      trackNumber: index,
+                              if (index == model.requestLength() ) {
+                                return Container(
+                                  child: IconButton(
+                                      icon: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Icon(Icons.add_circle),
+                                          Text("Add more")
+                                        ],
+                                      ),
+                                      onPressed: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (_) => AddPodcasts(),
+                                          ),
+                                        );
+                                      }),
+                                );
+                              } else {
+                                return GestureDetector(
+                                  onTap: () => Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (_) => Player(
+                                        trackNumber: index,
+                                      ),
                                     ),
                                   ),
-                                ),
-                                child: DottedBorder(
-                                  strokeWidth: 1,
-                                  strokeCap: StrokeCap.round,
-                                  dashPattern: [6, 3, 2, 3],
-                                  borderType: BorderType.RRect,
-                                  radius: Radius.circular(20.0),
-                                  child: _imageLoadingState == "loading" ||
-                                          _imageLoadingState == "notLoaded"
-                                      ? ClipRRect(
-                                          borderRadius:
-                                              BorderRadius.circular(20.0),
-                                          child: Center(
-                                            child: Text(
-                                              "loading..",
-                                              style: TextStyle(
-                                                  color: Colors.black),
+                                  child: DottedBorder(
+                                    strokeWidth: 1,
+                                    strokeCap: StrokeCap.round,
+                                    dashPattern: [6, 3, 2, 3],
+                                    borderType: BorderType.RRect,
+                                    radius: Radius.circular(20.0),
+                                    child: _imageLoadingState == "loading" ||
+                                            _imageLoadingState == "notLoaded"
+                                        ? ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(20.0),
+                                            child: Center(
+                                              child: Text(
+                                                "loading..",
+                                                style: TextStyle(
+                                                    color: Colors.black),
+                                              ),
+                                            ),
+                                          )
+                                        : ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(20.0),
+                                            child: Image.network(
+                                              model.requestCoverArt(index),
+                                              fit: BoxFit.contain,
                                             ),
                                           ),
-                                        )
-                                      : ClipRRect(
-                                          borderRadius:
-                                              BorderRadius.circular(20.0),
-                                          child: Image.network(
-                                            model.requestCoverArt(index),
-                                            fit: BoxFit.contain,
-                                          ),
-                                        ),
-                                ),
-                              );
+                                  ),
+                                );
+                              }
                             },
                           );
                         },
@@ -305,17 +325,15 @@ class SubscriptionsPageView extends StatelessWidget {
                   Container(
                     height: 200,
                     child: Center(
-                      child: IconButton(icon: Icon(Icons.delete), onPressed: ()
-                      {
-                        var box = Hive.box('subscriptionsBox');
-                        for(int i=0; i<box.length; i++)
-                        {
-                          box.deleteAt(i);
-                          print('deleted item at $i');
-                        }
-                        
-                      }
-                      ),
+                      child: IconButton(
+                          icon: Icon(Icons.delete),
+                          onPressed: () {
+                            var box = Hive.box('subscriptionsBox');
+                            for (int i = 0; i < box.length; i++) {
+                              box.deleteAt(i);
+                              print('deleted item at $i');
+                            }
+                          }),
                     ),
                   )
                 ],
