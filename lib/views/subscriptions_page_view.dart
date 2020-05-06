@@ -7,7 +7,7 @@ import 'package:hive/hive.dart';
 import 'package:podboi/models/subscriptions_page_model.dart';
 import 'package:podboi/service_locator.dart';
 import 'package:podboi/views/add_podcast_page_view.dart';
-import 'package:podboi/views/player_page_view.dart';
+import 'package:podboi/views/episodes_page_view.dart';
 
 import 'package:scoped_model/scoped_model.dart';
 
@@ -19,19 +19,23 @@ class SubscriptionsPageView extends StatelessWidget {
       child: Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
-          backgroundColor: Colors.lightGreen,
+          backgroundColor: Colors.white,
+          elevation: 0.0,
           title: Text(
             "podboi",
             style: GoogleFonts.monoton(
               textStyle: TextStyle(
-                fontSize: 40.0,
+                fontSize: 32.0,
                 color: Colors.black,
               ),
             ),
           ),
           actions: [
             IconButton(
-                icon: Icon(Icons.library_add),
+                icon: Icon(
+                  Icons.library_add,
+                  color: Colors.black,
+                ),
                 onPressed: () {
                   Navigator.push(
                     context,
@@ -47,8 +51,8 @@ class SubscriptionsPageView extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Divider(
-                  color: Colors.grey,
+                SizedBox(
+                  height: 35.0,
                 ),
                 Container(
                   padding: EdgeInsets.only(left: 20.0),
@@ -58,16 +62,14 @@ class SubscriptionsPageView extends StatelessWidget {
                         textStyle: TextStyle(
                             color: Colors.black,
                             fontWeight: FontWeight.bold,
-                            fontSize: 24.0)),
+                            fontSize: 22.0)),
                   ),
                 ),
-                // Divider(
-                //   color: Colors.grey,
-                // ),
+
                 Padding(
                   padding: const EdgeInsets.only(top: 15.0),
                   child: Container(
-                    height: MediaQuery.of(context).size.height * 0.50,
+                    height: MediaQuery.of(context).size.height * 0.70,
                     child: ScopedModelDescendant<SubscriptionsPageModel>(
                       builder: (context, child, model) {
                         var _state = model.getState();
@@ -83,7 +85,7 @@ class SubscriptionsPageView extends StatelessWidget {
                               SliverGridDelegateWithFixedCrossAxisCount(
                                   mainAxisSpacing: 5.0,
                                   crossAxisSpacing: 5.0,
-                                  crossAxisCount: 3),
+                                  crossAxisCount: 5),
                           itemBuilder: (BuildContext context, int index) {
                             //TODO:  Wrap the box with a gesture detector and add the onTap fucntionality
                             if (index == model.requestLength()) {
@@ -111,10 +113,7 @@ class SubscriptionsPageView extends StatelessWidget {
                                 onTap: () => Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (_) => Player(
-                                      trackNumber: index,
-                                    ),
-                                  ),
+                                      builder: (_) => EpisodesPage()),
                                 ),
                                 child: DottedBorder(
                                   strokeWidth: 1,
@@ -284,20 +283,25 @@ class SubscriptionsPageView extends StatelessWidget {
                 //     );
                 //   },
                 // ),
-                Container(
-                  height: 200,
-                  child: Center(
-                    child: IconButton(
-                        icon: Icon(Icons.delete),
-                        onPressed: () {
-                          var box = Hive.box('subscriptionsBox');
-                          int j = box.length;
-                          for (int i = 0; i < j; i++) {
-                            box.deleteAt(i);
-                            print('deleted item at $i');
-                          }
-                        }),
-                  ),
+                ScopedModelDescendant<SubscriptionsPageModel>(
+                  builder: (child, context, model) {
+                    return Container(
+                      height: 200,
+                      child: Center(
+                        child: IconButton(
+                            icon: Icon(Icons.delete),
+                            onPressed: () {
+                              var box = Hive.box('subscriptionsBox');
+                              int j = box.length;
+                              for (int i = 0; i < j; i++) {
+                                box.deleteAt(i);
+                                print('deleted item at $i');
+                              }
+                              model.handleRefresh();
+                            }),
+                      ),
+                    );
+                  },
                 )
               ],
             ),
@@ -311,7 +315,9 @@ class SubscriptionsPageView extends StatelessWidget {
                 elevation: 9.0,
                 color: Colors.lightBlueAccent,
                 shape: CircleBorder(),
-                onPressed: () {},
+                onPressed: () {
+                  model.handleRefresh();
+                },
                 child: Padding(
                     padding: const EdgeInsets.all(12.0),
                     child: Icon(Icons.refresh)),

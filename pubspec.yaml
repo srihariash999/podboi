@@ -16,7 +16,7 @@ dependencies:
   scoped_model: ^1.0.1
   get_it: ^4.0.1
   google_fonts: ^0.5.0+1
-  flutter_swiper: ^1.1.6
+ # flutter_swiper: ^1.1.6
   dotted_border: ^1.0.5
   
   #No other versions work for these three, don't update these unless necessary. Might cause problems

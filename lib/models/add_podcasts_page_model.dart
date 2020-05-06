@@ -31,7 +31,10 @@ class AddPodcastsPageModel extends Model {
         _podcastImages.add(result.artworkUrl100.toString());
         _podcastAuthors.add(result.artistName.toString());
         _podcastCount.add(result.trackCount.toString());
+        
       });
+      Podcast podcast = await Podcast.loadFeed(url: _results.items[0].feedUrl);
+      print(podcast.description);
       if (_podcastAuthors.length >= 1) {
         _state = ppState.loaded;
         notifyListeners();

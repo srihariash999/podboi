@@ -35,7 +35,9 @@ class SubscriptionsPageModel extends Model {
   { 
     _state = 'loading';
     notifyListeners();
+     print("page refreshing started");
     subscriptionsPageService.initLoading();
+   
     _state = 'loaded';
     notifyListeners();
   }
