@@ -4,6 +4,7 @@ import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hive/hive.dart';
+
 import 'package:podboi/models/subscriptions_page_model.dart';
 import 'package:podboi/service_locator.dart';
 import 'package:podboi/views/add_podcast_page_view.dart';
@@ -76,10 +77,12 @@ class SubscriptionsPageView extends StatelessWidget {
                         if (_state == "init") {
                           model.initLoading();
                         }
+                        int l = model.requestLength();
+                         
                         return GridView.builder(
                           scrollDirection: Axis.horizontal,
                           padding: EdgeInsets.all(10.0),
-                          itemCount: model.requestLength() + 1,
+                          itemCount: l+1,
                           shrinkWrap: true,
                           gridDelegate:
                               SliverGridDelegateWithFixedCrossAxisCount(
@@ -87,8 +90,8 @@ class SubscriptionsPageView extends StatelessWidget {
                                   crossAxisSpacing: 5.0,
                                   crossAxisCount: 5),
                           itemBuilder: (BuildContext context, int index) {
-                            //TODO:  Wrap the box with a gesture detector and add the onTap fucntionality
-                            if (index == model.requestLength()) {
+                            if (index == l) {
+                              print('building plus at index $index');
                               return Container(
                                 child: IconButton(
                                     icon: Column(
@@ -108,13 +111,20 @@ class SubscriptionsPageView extends StatelessWidget {
                                       );
                                     }),
                               );
-                            } else {
-                              return GestureDetector(
-                                onTap: () => Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (_) => EpisodesPage()),
-                                ),
+                            } else if(index < l){
+                              print('building at index $index');
+                              try {
+                                print('trying.............r');
+                                return GestureDetector(
+                                onTap: () {
+                                  String _p = model.getTitleOnTap(index);
+                                  print("The title got was: " +_p);
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (_) => EpisodesPage()),
+                                  );
+                                },
                                 child: DottedBorder(
                                   strokeWidth: 1,
                                   strokeCap: StrokeCap.round,
@@ -136,6 +146,15 @@ class SubscriptionsPageView extends StatelessWidget {
                                         ),
                                 ),
                               );
+                              }
+                              catch(e)
+                              {
+                                print(e);
+                                return Container();
+                              }
+                            }
+                            else {
+                              return Container();
                             }
                           },
                         );
@@ -292,11 +311,10 @@ class SubscriptionsPageView extends StatelessWidget {
                             icon: Icon(Icons.delete),
                             onPressed: () {
                               var box = Hive.box('subscriptionsBox');
-                              int j = box.length;
-                              for (int i = 0; i < j; i++) {
-                                box.deleteAt(i);
-                                print('deleted item at $i');
-                              }
+                             
+                              print('the box1 length is ${box.length} before cleaning');
+                              box.clear();
+                              print('the box1 length is ${box.length} after cleaning');
                               model.handleRefresh();
                             }),
                       ),

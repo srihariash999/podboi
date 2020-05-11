@@ -73,11 +73,14 @@ class SubscriptionsPageModel extends Model {
     return _n.toString() + " minutes";
   }
 
-
-  
+getTitleOnTap(int i)
+{
+  return subscriptionsPageService.getTitleOntap(i);
+}  
 
 
   tappedAction(BuildContext context, i) {
+
     Navigator.push(
       context,    
       MaterialPageRoute(

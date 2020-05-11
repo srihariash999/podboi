@@ -1,4 +1,5 @@
 import 'package:hive/hive.dart';
+
 import 'package:podboi/data_models/subscription.dart';
 import 'package:podboi/state_enums.dart';
 import 'package:podcast_search/podcast_search.dart';
@@ -31,10 +32,9 @@ class AddPodcastsPageModel extends Model {
         _podcastImages.add(result.artworkUrl100.toString());
         _podcastAuthors.add(result.artistName.toString());
         _podcastCount.add(result.trackCount.toString());
-        
+        _podcastFeedUrls.add(result.feedUrl);
       });
-      Podcast podcast = await Podcast.loadFeed(url: _results.items[0].feedUrl);
-      print(podcast.description);
+
       if (_podcastAuthors.length >= 1) {
         _state = ppState.loaded;
         notifyListeners();
@@ -70,15 +70,41 @@ class AddPodcastsPageModel extends Model {
   }
 
   storeAsSubscription(int i) async {
-    var mod =
-        Subscription(_podcastTitles[i], _podcastImages[i], _podcastAuthors[i]);
+    Podcast podcast = await Podcast.loadFeed(url: _podcastFeedUrls[i]);
+    print(podcast.description);
+    var eplist = podcast.episodes;
+    List _subEpNames = [];
+    List _subEpLinks = [];
+    List _subEpDescriptions = [];
+    eplist.forEach(
+      (element) {
+        _subEpNames.add(element.title);
+        _subEpDescriptions.add(element.description);
+        _subEpLinks.add(element.contentUrl);
+
+        //print(element.title);
+      },
+    );
+
+    var mod = Subscription(
+        _podcastTitles[i],
+        _podcastImages[i],
+        _podcastAuthors[i],
+        _podcastTitles[i],
+        int.parse(_podcastCount[i]),
+        int.parse(_podcastCount[i]),
+        _subEpDescriptions,
+        _subEpLinks,
+        _subEpNames);
     var box = Hive.box('subscriptionsBox');
     await box.add(mod);
-    print("added  ${box.getAt(box.length -1 )} to library");
+    print("added  ${box.getAt(box.length - 1).name} to library");
+
+    print('aThe first episode is: ' + _subEpNames[0]);
   }
 
   List _podcastImages = [];
-
+  List _podcastFeedUrls = [];
   List _podcastAuthors = [];
   List _podcastTitles = [];
   List _podcastCount = [];
