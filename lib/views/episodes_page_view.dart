@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:podboi/models/player_page_model.dart';
+import 'package:podboi/models/episodes_page_model.dart';
 import 'package:podboi/service_locator.dart';
-
+import 'package:podboi/state_enums.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class EpisodesPage extends StatelessWidget {
-  final int trackNumber;
-  EpisodesPage({this.trackNumber});
+  final int podcastIndex;
+  EpisodesPage({@required this.podcastIndex});
 
   @override
   Widget build(BuildContext context) {
-    return ScopedModel<PlayerPageModel>(
-      model: locator<PlayerPageModel>(),
+    return ScopedModel<EpisodesPageModel>(
+      model: locator<EpisodesPageModel>(),
       child: Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
@@ -19,37 +19,66 @@ class EpisodesPage extends StatelessWidget {
           backgroundColor: Colors.white,
           elevation: 0.0,
         ),
-        body: SingleChildScrollView(
-          child: Column(
-            children: [
-              Container(
-                child: EpisodesListHeaderItem(
-                  podcastAuthor: "Srihari Ayapilla",
-                  podcastCoverArt:
-                      'http://static.libsyn.com/p/assets/e/5/6/1/e56169e9fd5e2571/wolf-final700.jpg',
-                  podcastDescription:
-                      "Yu hu hu hu, I am the baddest nerd there is. I make super awesome apps and they look really awesome. Also, they're really fun to use",
-                  podcastTitle: "Pulihora Culture",
-                ),
-              ),
-              Divider(
-                color: Colors.grey,
-              ),
-              Container(
-                height: 800,
-                // TODO: Remove the listview builder and create a dynamic column from a list of fetched episdoes.
-                // TODO: Make the whole thing scrollable. Not just the episodes.
-                child: ListView.builder(
-                  itemBuilder: (_, i) => Container(
+        body: ScopedModelDescendant<EpisodesPageModel>(
+          builder: (context, child, model) {
+            var _state = model.getState();
+
+            if (_state == epState.initial) {
+              model.pageBuildRequest(podcastIndex);
+            } else if (_state == epState.loading) {
+              return Container();
+            } else if (_state == epState.loaded) {
+              int cou = model.requestEpisodesCount() + 1;
+              print('cou is: $cou');
+              return ListView.builder(
+                itemCount: cou,
+                itemBuilder: (_, i) {
+                  if (i == 0) {
+                    print('this is: $i');
+                    return Column(
+                      children: [
+                        Container(
+                          child: EpisodesListHeaderItem(
+                            podcastAuthor:
+                                model.requestPodcastAuthor().toString(),
+                            podcastCoverArt: model
+                                .requestPodcastCoverArt()
+                                .toString(),
+                            podcastDescription:
+                                "Yu hu hu hu, As a total genius I am, I totally forgot to get the podcast description into the database when I was storing the podcasts as subscriptions. So You need to make do with this now: 'This is an awesome podcast Dawg'",
+                            podcastTitle:
+                                model.requestPodcastTitle().toString(),
+                          ),
+                        ),
+                        Divider(
+                          color: Colors.grey,
+                        ),
+                      ],
+                    );
+                  }
+
+                  else 
+                  {print('this is: $i');
+                  // TODO: Make the UI for the Episode tile. Add play button which will start the player.
+                    return Container(
                     height: 100.0,
                     child: Center(
-                      child: Text(i.toString()),
+                      child: Text(
+                        model.requestEpisodeName(i -1),
+                      ),
                     ),
-                  ),
-                ),
-              )
-            ],
-          ),
+                  );
+                  }
+                },
+              );
+            }
+            return Container(
+              child: Center(
+                child:
+                    Text("ERROR DAWG!! Tell the dev to check the states again"),
+              ),
+            );
+          },
         ),
       ),
     );
@@ -57,10 +86,10 @@ class EpisodesPage extends StatelessWidget {
 }
 
 class EpisodesListHeaderItem extends StatelessWidget {
-  final podcastTitle;
-  final podcastAuthor;
-  final podcastCoverArt;
-  final podcastDescription;
+  final String podcastTitle;
+  final String podcastAuthor;
+  final String podcastCoverArt;
+  final String podcastDescription;
   const EpisodesListHeaderItem(
       {Key key,
       @required this.podcastTitle,

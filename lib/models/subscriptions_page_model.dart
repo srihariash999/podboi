@@ -27,20 +27,13 @@ class SubscriptionsPageModel extends Model {
   initLoading() async {
   _state = 'loading';
   notifyListeners();
+   print("page refreshing started");
    await subscriptionsPageService.initLoading();
    _state = 'loaded';
    notifyListeners();
+   print("page refreshed");
   }
-  handleRefresh()
-  { 
-    _state = 'loading';
-    notifyListeners();
-     print("page refreshing started");
-    subscriptionsPageService.initLoading();
-   
-    _state = 'loaded';
-    notifyListeners();
-  }
+
 
   requestCoverArt(i) {
     print('the range req is $i');

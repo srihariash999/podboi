@@ -114,15 +114,15 @@ class SubscriptionsPageView extends StatelessWidget {
                             } else if(index < l){
                               print('building at index $index');
                               try {
-                                print('trying.............r');
+                               // print('trying.............r');
                                 return GestureDetector(
                                 onTap: () {
-                                  String _p = model.getTitleOnTap(index);
-                                  print("The title got was: " +_p);
+                                 // String _p = model.getTitleOnTap(index);
+                                 // print("The title got was: " +_p);
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (_) => EpisodesPage()),
+                                        builder: (_) => EpisodesPage(podcastIndex: index,)),
                                   );
                                 },
                                 child: DottedBorder(
@@ -315,7 +315,7 @@ class SubscriptionsPageView extends StatelessWidget {
                               print('the box1 length is ${box.length} before cleaning');
                               box.clear();
                               print('the box1 length is ${box.length} after cleaning');
-                              model.handleRefresh();
+                              model.initLoading();
                             }),
                       ),
                     );
@@ -334,7 +334,7 @@ class SubscriptionsPageView extends StatelessWidget {
                 color: Colors.lightBlueAccent,
                 shape: CircleBorder(),
                 onPressed: () {
-                  model.handleRefresh();
+                  model.initLoading();
                 },
                 child: Padding(
                     padding: const EdgeInsets.all(12.0),
