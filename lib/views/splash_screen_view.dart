@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:podboi/views/subscriptions_page_view.dart';
+import 'package:podboi/views/new_landing_screen_view.dart';
+// import 'package:podboi/views/subscriptions_page_view.dart';
 
 class SplashScreen extends StatefulWidget {
   SplashScreen({Key key}) : super(key: key);
@@ -16,7 +17,7 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
     Future.delayed(Duration(seconds: 4), () {
       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
-        return SubscriptionsPageView();
+        return ScreenOne();
       }));
     });
   }

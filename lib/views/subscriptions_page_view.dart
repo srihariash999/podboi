@@ -19,34 +19,34 @@ class SubscriptionsPageView extends StatelessWidget {
       model: locator<SubscriptionsPageModel>(),
       child: Scaffold(
         backgroundColor: Colors.white,
-        appBar: AppBar(
-          backgroundColor: Colors.white,
-          elevation: 0.0,
-          title: Text(
-            "podboi",
-            style: GoogleFonts.monoton(
-              textStyle: TextStyle(
-                fontSize: 32.0,
-                color: Colors.black,
-              ),
-            ),
-          ),
-          actions: [
-            IconButton(
-                icon: Icon(
-                  Icons.library_add,
-                  color: Colors.black,
-                ),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (_) => AddPodcasts(),
-                    ),
-                  );
-                })
-          ],
-        ),
+        // appBar: AppBar(
+        //   backgroundColor: Colors.white,
+        //   elevation: 0.0,
+        //   title: Text(
+        //     "podboi",
+        //     style: GoogleFonts.monoton(
+        //       textStyle: TextStyle(
+        //         fontSize: 32.0,
+        //         color: Colors.black,
+        //       ),
+        //     ),
+        //   ),
+        //   actions: [
+        //     IconButton(
+        //         icon: Icon(
+        //           Icons.library_add,
+        //           color: Colors.black,
+        //         ),
+        //         onPressed: () {
+        //           Navigator.push(
+        //             context,
+        //             MaterialPageRoute(
+        //               builder: (_) => AddPodcasts(),
+        //             ),
+        //           );
+        //         })
+        //   ],
+        // ),
         body: SafeArea(
           child: SingleChildScrollView(
             child: Column(
