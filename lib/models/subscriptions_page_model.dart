@@ -24,7 +24,7 @@ class SubscriptionsPageModel extends Model {
   //TODO:  Chnage the startLoadingImages logic, if the urls are in database, fetch it from there and not internet everytime.
   //TODO: WHen the above logic is changed, try returning urls to each grid seperately.
 
-  initLoading() async {
+  initLoading() async { 
   _state = 'loading';
   notifyListeners();
    print("page refreshing started");
@@ -32,11 +32,13 @@ class SubscriptionsPageModel extends Model {
    _state = 'loaded';
    notifyListeners();
    print("page refreshed");
+    await Future.delayed(Duration(milliseconds: 1000));
+  
   }
 
 
   requestCoverArt(i) {
-    print('the range req is $i');
+   // print('the range req is $i');
    var _p =  subscriptionsPageService.getCoverArtURL(i);
    return _p;
     

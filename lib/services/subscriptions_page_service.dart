@@ -14,7 +14,7 @@ class SubscriptionsPageService {
     for (int i = 0; i < _len; i++) {
       var p = box.getAt(i);
       _imageURLs.add(p.coverArt);
-      print('added coverart of index $i as ' + p.coverArt);
+    //  print('added coverart of index $i as ' + p.coverArt);
       _podcastNames.add(p.name);
     }
   }
@@ -24,7 +24,7 @@ class SubscriptionsPageService {
   }
 
   getLength() {
-    print("the length is ${box.values.length}");
+  //  print("the length is ${box.values.length}");
     return box.values.length;
   }
 

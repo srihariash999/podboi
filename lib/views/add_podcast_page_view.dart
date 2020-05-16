@@ -9,7 +9,7 @@ class AddPodcasts extends StatelessWidget {
   Widget build(BuildContext context) {
     return ScopedModel<AddPodcastsPageModel>(
       model: locator<AddPodcastsPageModel>(),
-      child: Scaffold(
+      child: Scaffold(  
         backgroundColor: Colors.white,
         appBar: AppBar(
           backgroundColor: Colors.white,
@@ -30,7 +30,14 @@ class AddPodcasts extends StatelessWidget {
 
                     return TextField(
                       controller: _searchTextController,
-                      autofocus: true,
+                      //autofocus: true,
+                      onEditingComplete: () {
+                        model.textSubmitted(_searchTextController.text);
+                      },
+
+                      onSubmitted: (e) {
+                        model.textSubmitted(e);
+                      },
                       decoration: InputDecoration(
                         border: OutlineInputBorder(
                           borderSide: BorderSide(
@@ -51,7 +58,7 @@ class AddPodcasts extends StatelessWidget {
                             ),
                             onPressed: () {
                               model.textSubmitted(_searchTextController.text);
-                              _searchTextController.clear();
+                              //_searchTextController.clear();
                             },
                           ),
                         ),
@@ -113,8 +120,8 @@ class AddPodcasts extends StatelessWidget {
                         } else if (_state == ppState.loaded) {
                           return Container(
                             decoration: BoxDecoration(
-                              border: Border.all(color: Colors.black, width: 4)
-                            ),
+                                border:
+                                    Border.all(color: Colors.black, width: 4)),
                             height: 130.0,
                             child: Card(
                               child: Row(
@@ -173,7 +180,7 @@ class AddPodcasts extends StatelessWidget {
                                           onPressed: () {
                                             print(
                                                 "Add search Item at  $index  to library");
-                                                model.storeAsSubscription(index);
+                                            model.storeAsSubscription(index);
                                           },
                                         ),
                                       ),

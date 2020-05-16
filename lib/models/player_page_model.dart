@@ -57,9 +57,12 @@ class PlayerPageModel extends Model {
   }
 
   pausedFromNotif() {}
+
   initial(int i) async {
-    print("Sending the info to player first time, trackno: $i");
-    await initTrack(i);
+    if (i != null) {
+      print("Sending the info to player first time, trackno: $i");
+      await initTrack(i);
+    }
   }
 
   printIt(value) {
