@@ -24,3 +24,11 @@ This is a dev branch, I test things, move stuff around or just replace things en
 
 This app is in initial stages of development. If you want to contribute something to the project or found an issue, please open an issue 
 for the case with a brief description.
+
+
+# podBoi Logo:
+
+<b> The logo is drawn by my very talented friend Kavita Boro </b>
+
+<img src="https://github.com/srihariash999/podboi/blob/master/assets/logoPodboi.png" width="250" height="500">
+
