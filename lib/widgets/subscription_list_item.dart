@@ -16,10 +16,10 @@ class SubscriptionListItem extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
           Container(
-            height: 80,
-            width: 80,
-            margin: EdgeInsets.all(6.0),
-            padding: EdgeInsets.all(6.0),
+            height: 79,          //changed it to 79, wapis kr lena 80 baad mein
+            width: 79,
+            margin: EdgeInsets.all(5.0), //changed it to 5, wapis kr lena baad mein
+            padding: EdgeInsets.all(5.0),
             child: Image.network(
               coverArtURL,
               fit: BoxFit.cover,
